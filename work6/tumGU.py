@@ -1,7 +1,6 @@
 import json
 import csv
 
-# 1. Загружаем данные о покупках в словарь user_id -> category
 purchase_categories = {}
 
 with open('resources/purchase_log.txt', encoding='utf-8') as f:
@@ -12,16 +11,15 @@ with open('resources/purchase_log.txt', encoding='utf-8') as f:
         if user_id and category:
             purchase_categories[user_id] = category
 
-# 2. Построчная обработка visit_log.csv и запись funnel.csv
 with open('resources/visit_log__1_.csv', encoding='utf-8') as visits, \
      open('resources/funnel.csv', 'w', encoding='utf-8', newline='') as out:
 
     writer = csv.writer(out)
-    writer.writerow(['user_id', 'source', 'category'])  # заголовок
+    writer.writerow(['user_id', 'source', 'category'])
 
     reader = csv.reader(visits)
-    header = next(reader)  # пропускаем заголовок visit_log.csv
+    header = next(reader)
 
-    for user_id, source in reader:    # ожидаемый формат: user_id,source
+    for user_id, source in reader:
         if user_id in purchase_categories:
             writer.writerow([user_id, source, purchase_categories[user_id]])
